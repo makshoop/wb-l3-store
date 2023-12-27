@@ -1,0 +1,17 @@
+.selected {
+  
+    &__empty {
+      display: none;
+    }
+  
+    &.is__empty {
+      .selected__empty {
+        display: block;
+      }
+  
+      .selected__in {
+        display: none;
+      }
+    }
+  }
+  

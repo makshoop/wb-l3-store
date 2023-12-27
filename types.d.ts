@@ -57,3 +57,8 @@ export type ProductData = {
     src: string;
     description: string;
 }
+
+export type SearchTip = {
+    text: string,
+    link: string
+}

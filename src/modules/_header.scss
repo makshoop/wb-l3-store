@@ -13,6 +13,14 @@
 
   &__buttons {
     margin-left: auto;
+    display: flex;
+    gap: 20px;
+
+    .favorite {
+      &.hide {
+        display: none;
+      }
+    }
   }
 
   a {

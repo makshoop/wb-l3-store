@@ -4,9 +4,11 @@ import { genUUID } from '../utils/helpers';
 const ID_DB = '__wb-userId';
 
 class UserService {
+  private userId: string | null = null;
+
   async init() {
-    const id = await this.getId();
-    console.warn('UserID: ', id);
+    this.userId = await this.getId();
+
   }
 
   async getId(): Promise<string> {
@@ -21,6 +23,9 @@ class UserService {
     const id = genUUID();
     await localforage.setItem(ID_DB, id);
     return id;
+  }
+  getUserId(): string | null {
+    return this.userId
   }
 }
 
