@@ -68,3 +68,11 @@
     margin-top: 3em;
   }
 }
+
+.productDetail__controls {
+  .btnFav1 {
+    svg {
+      fill: red;
+    }
+  }
+}
