@@ -36,6 +36,8 @@ export type ProductData = {
   }>;
   root: number;
   sale: number;
+  src: string;
+  description: string;
   salePrice: number;
   salePriceU: number;
   saleConditions: number;
@@ -51,10 +53,10 @@ export type ProductData = {
   supplierId: number;
   disabledForRegion?: boolean;
   return_fee?: number;
-  time?: number; // timestamp
-  dist?: number;
-  log?: any;
-  src: string;
-  description: string;
-  isDisabled: boolean;
+};
+
+export type AnalyticsParams = {
+  type: string;
+  payload: Record<string, unknown>;
+  timestamp?: Date;
 };

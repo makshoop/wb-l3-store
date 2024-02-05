@@ -4,7 +4,7 @@ import { formatPrice } from '../../utils/helpers';
 import { ProductData } from 'types';
 import html from './productDetail.tpl.html';
 import { cartService } from '../../services/cart.service';
-import { favoritesService } from '../../services/favorites.service';
+import { analyticsApi } from '../../services/analytics.service';
 
 class ProductDetail extends Component {
   more: ProductList;
@@ -33,29 +33,10 @@ class ProductDetail extends Component {
     this.view.description.innerText = description;
     this.view.price.innerText = formatPrice(salePriceU);
     this.view.btnBuy.onclick = this._addToCart.bind(this);
-    this.view.btnBuy.onclick = this._removeProduct.bind(this);
-    this.view.btnFav.onclick = this._addToFavorites.bind(this);
-    this.view.btnFav.onclick = this._removeFavProduct.bind(this);
 
-    //Корзина
     const isInCart = await cartService.isInCart(this.product);
 
-    if (isInCart) {
-      this._setInCart();
-    } else {
-      this._removeInCart();
-    }
-    //Избранное
-    const isInFav = await favoritesService.isInFavorites(this.product);
-
-    if (isInFav) {
-      this._setInFav();
-    } else {
-      this._removeInFav();
-    }
-
     if (isInCart) this._setInCart();
-    if (isInFav) this._setInFav();
 
     fetch(`/api/getProductSecretKey?id=${id}`)
       .then((res) => res.json())
@@ -70,79 +51,23 @@ class ProductDetail extends Component {
       });
   }
 
-  //Добавление в корзину
   private _addToCart() {
     if (!this.product) return;
+
+    analyticsApi.sendAnalytic({
+      type: 'addToCard',
+      payload: {
+        ...this.product
+      }
+    });
 
     cartService.addProduct(this.product);
     this._setInCart();
   }
 
-  //Удаление с корзины
-  private _removeProduct() {
-    if (!this.product) return;
-
-    cartService.removeProduct(this.product);
-    this._removeInCart();
-  }
-
-  //Добавление в избранное
-  private async _addToFavorites() {
-    if (!this.product) return;
-
-    const isInFavorites = await favoritesService.isInFavorites(this.product);
-    if (isInFavorites) return;
-
-    favoritesService.addProductToFav(this.product);
-    this._setInFav();
-  }
-
-  //Удаление с избранных
-  private _removeFavProduct() {
-    if (!this.product) return;
-
-    favoritesService.removeProductFromFav(this.product);
-    this._removeInFav();
-  }
-
-  //корзина
   private _setInCart() {
     this.view.btnBuy.innerText = '✓ В корзине';
-    this.view.btnBuy.onclick = this._removeProduct.bind(this);
-    this._setButtonCartDisabled(true);
-  }
-
-  private _removeInCart() {
-    this.view.btnBuy.innerText = 'В корзину';
-    this.view.btnBuy.onclick = this._addToCart.bind(this);
-    this._setButtonCartDisabled(false);
-  }
-
-  private _setButtonCartDisabled(isDisabled: boolean) {
-    if (isDisabled) {
-      this.view.btnBuy.classList.add('disable');
-    } else {
-      this.view.btnBuy.classList.remove('disable');
-    }
-  }
-
-  //Избранное
-  private _setInFav() {
-    this.view.btnFav.onclick = this._removeFavProduct.bind(this);
-    this._setButtonFavDisabled(true);
-  }
-
-  private _removeInFav() {
-    this.view.btnFav.onclick = this._addToFavorites.bind(this);
-    this._setButtonFavDisabled(false);
-  }
-
-  private _setButtonFavDisabled(isDisabled: boolean) {
-    if (isDisabled) {
-      this.view.btnFavIcon.setAttribute('fill', 'var(--key-color)');
-    } else {
-      this.view.btnFavIcon.setAttribute('fill', 'var(--default-color)');
-    }
+    this.view.btnBuy.disabled = true;
   }
 }
 
