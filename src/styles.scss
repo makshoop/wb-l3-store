@@ -6,7 +6,7 @@ body {
   --key-color-dark: #a2097b;
   --plate-color: #f6f6fa;
   --border-radius: 20px;
-
+  --default-color: black;
   font-family:
     system,
     -apple-system,
@@ -85,6 +85,7 @@ img {
 }
 
 .btnFav {
+  cursor: pointer;
   border: 0;
   background: none;
   padding: 0;
@@ -98,6 +99,7 @@ img {
 }
 
 .btn {
+  cursor: pointer;
   text-decoration: none;
   padding: 0.55em 0.8em;
   border-radius: var(--border-radius);
@@ -122,6 +124,12 @@ img {
 
 .cart {
   position: relative;
+  margin: 10px;
+}
+
+.disable {
+  background: var(--plate-color);
+  color: #000;
 }
 
 .cartCounter {
@@ -142,6 +150,27 @@ img {
 
   &:empty {
     display: none;
+  }
+
+  .favoritesCounter {
+    position: absolute;
+    right: -21px;
+    top: -10px;
+    background: #ff5100;
+    color: #fff;
+    font-size: 12px;
+    font-weight: bold;
+    border-radius: 50%;
+    aspect-ratio: 1/1;
+    display: block;
+    width: 20px;
+    line-height: 20px;
+    text-align: center;
+    padding: 0;
+
+    &:empty {
+      display: none;
+    }
   }
 }
 
