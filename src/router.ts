@@ -3,6 +3,7 @@ import { notFoundComp } from './modules/notFound/notFound';
 import { homepageComp } from './modules/homepage/homepage';
 import { productDetailComp } from './modules/productDetail/productDetail';
 import { checkoutComp } from './modules/checkout/checkout';
+import { analyticsApi } from './services/analytics.service';
 
 const ROUTES = {
   '/': homepageComp,
@@ -24,6 +25,13 @@ export default class Router {
 
   route(e: any) {
     e.preventDefault();
+
+    analyticsApi.sendAnalytic({
+      type: 'route',
+      payload: {
+        url: window.location.pathname
+      }
+    });
 
     // @ts-ignore
     const component = ROUTES[window.location.pathname] || notFoundComp;
