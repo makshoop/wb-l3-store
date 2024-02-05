@@ -2,8 +2,8 @@ export type ProductData = {
     brand: string;
     brandId: number;
     colors: Array<{
-        name: string;
-        id: number;
+      name: string;
+      id: number;
     }>;
     diffPrice: boolean;
     extended: any;
@@ -16,8 +16,8 @@ export type ProductData = {
     name: string;
     offsize: boolean;
     option: {
-        name: string;
-        id: number;
+      name: string;
+      id: number;
     };
     outOfStock?: boolean;
     pics: number;
@@ -30,9 +30,9 @@ export type ProductData = {
     reviewRating: number;
     rids: Array<string>;
     positions?: Array<{
-        rid: string;
-        wh: number;
-        return_fee?: number;
+      rid: string;
+      wh: number;
+      return_fee?: number;
     }>;
     root: number;
     sale: number;
@@ -52,8 +52,14 @@ export type ProductData = {
     disabledForRegion?: boolean;
     return_fee?: number;
     time?: number; // timestamp
-    dist?: number,
+    dist?: number;
     log?: any;
     src: string;
     description: string;
-}
+  };
+  
+  declare global {
+    interface Window {
+      userId: string;
+    }
+  }
